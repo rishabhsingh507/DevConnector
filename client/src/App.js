@@ -5,6 +5,7 @@ import Landing from './components/layouts/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layouts/Alert';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 //Redux
 import { Provider } from 'react-redux';
@@ -14,6 +15,7 @@ import setAuthToken from './utils/setAuthToken';
 
 
 import './App.css'
+import Dashboard from './components/dashboard/Dashboard';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -36,6 +38,7 @@ const App = () => {
               <Switch>
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
+                <PrivateRoute exact path='/dashboard' component={Dashboard} />
               </Switch>
             </section>
         </Fragment>
