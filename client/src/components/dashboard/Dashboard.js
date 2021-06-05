@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layouts/Spinner';
 import { getCurrentProfile } from '../../actions/profile';
+import DashboardActions from './DashboardActions';
 
 const Dashboard = ({
     getCurrentProfile,
@@ -20,12 +21,14 @@ const Dashboard = ({
             <i className="fas fa-user"></i> Welcome {user && user.name}
         </p>
         {profile !== null ? (
-            <Fragment>has</Fragment>
+            <Fragment>
+                <DashboardActions />
+            </Fragment>
         ) : (
             <Fragment>
-                    <p>You have not yet setup ypur profile, please add some info</p>
-                    <Link to='/create-profile' className='btn btn-primary my-1'>
-                        Create Profile
+                <p>You have not yet setup ypur profile, please add some info</p>
+                <Link to='/create-profile' className='btn btn-primary my-1'>
+                    Create Profile
                     </Link>
             </Fragment>
         )}
@@ -43,4 +46,4 @@ const mapStateToProps = state => ({
     profile: state.profile
 })
 
-export default connect(mapStateToProps, {getCurrentProfile})(Dashboard);
+export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);

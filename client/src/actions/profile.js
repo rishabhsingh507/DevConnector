@@ -17,7 +17,7 @@ export const getCurrentProfile = () => async dispatch => {
             payload: res.data
         });
     } catch (err) {
-        console.log(err.response.status);
+        console.log(err);
         dispatch({
             type: PROFILE_ERROR,
             payload: { msg: err.response.statusText, status: err.response.status }
@@ -30,7 +30,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
     try {
         const config = {
             headers: {
-                'Content-type' : 'application/json'
+                'Content-type': 'application/json'
             }
         }
 
@@ -55,7 +55,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
 
         dispatch({
             type: PROFILE_ERROR,
-            payload: { msg: err.response.statusText, status: err.response.status}
+            payload: { msg: err.response.statusText, status: err.response.status }
         })
     }
 }
