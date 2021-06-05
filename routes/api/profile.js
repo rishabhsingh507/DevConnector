@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Post = require('../../models/Post');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const request = require('request');
@@ -128,10 +129,10 @@ router.get('/', async (req, res) => {
 router.get('/user/:user_id', async (req, res) => {
     try {
         const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar']);
-        
+
         if (!profile)
             return res.status(400).json({ msg: 'There is no profile' });
-        
+
         res.json(profile)
     } catch (error) {
         console.error(error.message);
@@ -147,9 +148,12 @@ router.get('/user/:user_id', async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
     try {
+        //Remove user posts
+        await Post.deleteMany(({ user: req.user.user.id }));
+
         // Remove profile
         await Profile.findOneAndRemove({ user: req.user.id });
-        
+
         // Remove user
         await User.findOneAndRemove({ _id: req.user.id });
 
@@ -214,7 +218,7 @@ router.put('/experience',
             console.error(err.message);
             res.status(500).send('Server error');
         }
-})
+    })
 
 // @route   DELETE api/profile/experience/:ex_id
 // @desc    Delete experience from profile
@@ -229,7 +233,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
         const removeIndex = profile.experience
             .map(item => item.id)
             .indexOf(req.params.id);
-        
+
         profile.experience.splice(removeIndex, 1);
 
         await profile.save();
@@ -298,7 +302,7 @@ router.put('/education',
             console.error(err.message);
             res.status(500).send('Server error');
         }
-})
+    })
 
 // @route   DELETE api/profile/education/:ex_id
 // @desc    Delete education from profile
@@ -313,7 +317,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
         const removeIndex = profile.education
             .map(item => item.id)
             .indexOf(req.params.edu_id);
-        
+
         profile.education.splice(removeIndex, 1);
 
         await profile.save();
