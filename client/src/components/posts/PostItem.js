@@ -63,7 +63,7 @@ const PostItem = ({
     )
 }
 
-PostItem.defaulProps = {
+PostItem.defaultProps = {
     showActions: true
 }
 
