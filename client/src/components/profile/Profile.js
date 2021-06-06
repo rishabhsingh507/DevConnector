@@ -5,6 +5,8 @@ import Spinner from '../layouts/Spinner'
 import { getProfileById } from '../../actions/profile';
 import profile from '../../reducers/profile';
 import { Link } from 'react-router-dom';
+import ProfileTop from './ProfileTop';
+import ProfileAbout from './ProfileAbout';
 
 const Profile = ({
     getProfileById,
@@ -14,7 +16,7 @@ const Profile = ({
 }) => {
     useEffect(() => {
         getProfileById(match.params.id);
-    }, [getProfileById]);
+    }, [getProfileById, match.params.id]);
 
     return (
         <Fragment>
@@ -26,6 +28,10 @@ const Profile = ({
                     profile.user._id && (<Link to='/edit-profile' className='btn btn-dark'>
                         Edit Profile
                     </Link>)}
+                <div className="profile-grid my-1">
+                    <ProfileTop profile={profile} />
+                    <ProfileAbout profile={profile} />
+                </div>
             </Fragment>}
         </Fragment>
     )
